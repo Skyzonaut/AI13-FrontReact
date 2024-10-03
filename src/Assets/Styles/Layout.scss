@@ -1,0 +1,77 @@
+@import "../../index.scss";
+
+.App {
+  text-align: center;
+}
+
+
+.App-header {
+  background-color: $dark-0;
+  height: 9vh;
+  gap: 1vw;
+  display: flex;
+  font-size: 1vh;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: calc(10px + 2vmin);
+  color: $white;
+  box-shadow: $white 0px 13px 27px -5px, $white 0px 8px 16px -8px;
+}
+
+.App-header-link {
+  text-decoration: none;
+  color: inherit;
+  font-size: 2vh;
+}
+
+.header-logo-container {
+  text-decoration: none; 
+  color: inherit;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  align-items: center;
+  justify-content: inherit
+}
+
+.App-logo {
+  height: 90%;
+  pointer-events: none;
+}
+
+.App-logo:hover {
+  cursor: pointer;
+}
+.App-link {
+  color: #61dafb;
+}
+
+#account-logo {
+  height: 50%;
+  width: auto;
+  transition: filter 0.2s ease
+}
+#account-logo:hover {
+  height: 50%;
+  width: auto;
+  filter: brightness(0.5);
+  
+}
+.main-layout {
+  padding: 4vh 4vw 4vh 4vw;
+  width: 100%;
+  height: 91vh;
+  background-color: $bg-color;
+  color: white;
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+
+.application-title {
+  font-size: 4vh;
+  text-align: center;
+  height: fit-content;
+  padding-bottom: 1vh;
+  font-weight: bolder;
+}

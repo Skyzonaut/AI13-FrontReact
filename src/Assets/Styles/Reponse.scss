@@ -1,0 +1,10 @@
+@import "src/utilities.scss";
+
+.form-check {
+    width: 100%;
+    padding: 1vh 1vh 1vh 0;
+}
+
+.right-answer {
+    background-color: $right-answer;
+}

@@ -1,0 +1,19 @@
+[
+    {
+        "id": "Ae484AZefaze",
+        "pseudo": "DurocqA",
+        "nom": "Durocq",
+        "prenom": "Antoine",
+        "mail": "antoine.durocq@gmail.com",
+        "parents": [
+            {
+                "nom": "valérie",
+                "sexe": "femme"
+            },
+            {
+                "nom": "Antoine",
+                "sexe": "Tracteur"
+            }
+        ]
+    }
+]

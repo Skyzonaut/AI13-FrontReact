@@ -1,0 +1,200 @@
+[
+    {
+        "id": 1,
+        "titre": "Présentation du stagiaire",
+        "questions": [
+            {
+                "id": "1-1",
+                "titre": "Quel est votre âge ?",
+                "reponses": [
+                    {
+                        "id": "1-1-1",
+                        "text": "Mineur",
+                        "value": "mineur",
+                        "vrai": false
+                    },
+                    {
+                        "id": "1-1-2",
+                        "text": "Majeur",
+                        "value": "majeur",
+                        "vrai": true
+                    }
+                ]
+            },
+            {
+                "id": "1-2",
+                "titre": "Quel est votre sexe ?",
+                "reponses": [
+                    {
+                        "id": "1-2-1",
+                        "text": "Homme",
+                        "value": "homme",
+                        "vrai": true
+                    },
+                    {
+                        "id": "1-2-2",
+                        "text": "Femme",
+                        "value": "femme",
+                        "vrai": false
+                    }
+                ]
+            },
+            {
+                "id": "1-3",
+                "titre": "Quel est votre domaine métier ?",
+                "reponses": [
+                    {
+                        "id": "1-3-1",
+                        "text": "Primaire",
+                        "value": "primaire",
+                        "vrai": false
+                    },
+                    {
+                        "id": "1-3-2",
+                        "text": "Secondaire",
+                        "value": "secondaire",
+                        "vrai": true
+                    },
+                    {
+                        "id": "1-3-3",
+                        "text": "Tertiaire",
+                        "value": "tertiaire",
+                        "vrai": false
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "titre": "Présentation du gueu",
+        "questions": [
+            {
+                "id": "2-1",
+                "titre": "Quel est votre âge ?",
+                "reponses": [
+                    {
+                        "id": "2-1-1",
+                        "text": "Mineur",
+                        "value": "mineur",
+                        "vrai": true
+                    },
+                    {
+                        "id": "2-1-2",
+                        "text": "Majeur",
+                        "value": "majeur",
+                        "vrai": false
+                    }
+                ]
+            },
+            {
+                "id": "2-2",
+                "titre": "Quel est votre sexe ?",
+                "reponses": [
+                    {
+                        "id": "2-2-1",
+                        "text": "Homme",
+                        "value": "homme",
+                        "vrai": false
+                    },
+                    {
+                        "id": "2-2-2",
+                        "text": "Femme",
+                        "value": "femme",
+                        "vrai": true
+                    }
+                ]
+            },
+            {
+                "id": "2-3",
+                "titre": "Quel est votre domaine métier ?",
+                "reponses": [
+                    {
+                        "id": "2-3-1",
+                        "text": "Primaire",
+                        "value": "primaire",
+                        "vrai": false
+                    },
+                    {
+                        "id": "2-3-2",
+                        "text": "Secondaire",
+                        "value": "secondaire",
+                        "vrai": true
+                    },
+                    {
+                        "id": "2-3-3",
+                        "text": "Tertiaire",
+                        "value": "tertiaire",
+                        "vrai": false
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "titre": "Présentation du plouc",
+        "questions": [
+            {
+                "id": "3-1",
+                "titre": "Quel est votre âge ?",
+                "reponses": [
+                    {
+                        "id": "3-1-1",
+                        "text": "Mineur",
+                        "value": "mineur",
+                        "vrai": true
+                    },
+                    {
+                        "id": "3-1-2",
+                        "text": "Majeur",
+                        "value": "majeur",
+                        "vrai": false
+                    }
+                ]
+            },
+            {
+                "id": "3-2",
+                "titre": "Quel est votre sexe ?",
+                "reponses": [
+                    {
+                        "id": "3-2-1",
+                        "text": "Homme",
+                        "value": "homme",
+                        "vrai": false
+                    },
+                    {
+                        "id": "3-2-2",
+                        "text": "Femme",
+                        "value": "femme",
+                        "vrai": true
+                    }
+                ]
+            },
+            {
+                "id": "3-3",
+                "titre": "Quel est votre domaine métier ?",
+                "reponses": [
+                    {
+                        "id": "3-3-1",
+                        "text": "Primaire",
+                        "value": "primaire",
+                        "vrai": false
+                    },
+                    {
+                        "id": "3-3-2",
+                        "text": "Secondaire",
+                        "value": "secondaire",
+                        "vrai": true
+                    },
+                    {
+                        "id": "3-3-3",
+                        "text": "Tertiaire",
+                        "value": "tertiaire",
+                        "vrai": false
+                    }
+                ]
+            }
+        ]
+    }
+]

@@ -1,0 +1,17 @@
+@import "src/utilities.scss";
+
+.questionnaire {
+    padding: 1vh 20% 1vh 20%;
+}
+
+.questionnaire > h2 {
+    text-align: center;
+    color: rgb(156, 0, 228);
+    font-weight: bold;
+}
+
+.questionnaire > form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

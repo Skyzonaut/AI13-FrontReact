@@ -1,0 +1,103 @@
+@import "src/utilities.scss";
+.parcours-main-pane {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: auto;
+    flex-grow: 1;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.parcours-left-pane {
+    display: flex;
+    flex-direction: column;
+    border-right: solid $grey 2px;
+    flex-basis: 20%;
+    background-color: $light-grey;
+    padding: 1%;
+    overflow-y: auto;
+    scrollbar-width: none;
+    gap: 1vh;
+    height: 100%;
+    justify-content: space-between;
+}
+
+.parcours-selection-pane {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 20%;
+    background-color: $light-grey;
+    padding: 1%;
+    overflow-y: auto;
+    scrollbar-width: none;
+    gap: 1vh;
+    height: fit-content;
+    flex: 1;
+}
+
+.add-parcours {
+    max-height: 5%;
+    color: $dark-0;
+    font-weight: bolder;
+    font-size: 1.8vh;
+    border-radius: 7px;
+    border-bottom: 3px solid $grey;
+    padding: 0.3vh 1vw 0.9vh 1vw;
+
+    background: $button-color;
+    border-radius: 999px;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-family: Inter,Helvetica,"Apple Color Emoji","Segoe UI Emoji",NotoColorEmoji,"Noto Color Emoji","Segoe UI Symbol","Android Emoji",EmojiSymbols,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans",sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    opacity: 1;
+    outline: 0 solid transparent;
+    padding: 8px 18px;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    word-break: break-word;
+    border: 0;
+}
+
+.add-parcours:hover {
+    background-color: $dark-3;
+}
+.parcours-view-pane {
+    padding: 1%;
+    display: flex;
+    flex-grow: 1;
+    flex-direction: row;
+    border-right: solid $light-grey 2px;
+    background-color: $dark-2;
+}
+
+.parcours-item {
+    margin-bottom: 1vh;
+    padding: 1vh;
+    border-bottom: solid $grey 1px;
+    background-color: $dark-3;
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
+}
+
+.parcours-item:hover {
+    cursor: pointer;
+    background-color: #5d5d5d;
+}
+
+.parcours-view {
+    width: 100%;
+}
+.parcour-reponse {
+    color: white;
+    margin-bottom: 2vh;
+    padding-bottom: 1vh;
+    border-bottom: solid grey 2px;;
+}
+
+.selected {
+    border-left: solid 5px rgb(253, 253, 135);
+}

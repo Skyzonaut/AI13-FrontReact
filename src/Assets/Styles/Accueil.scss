@@ -1,0 +1,15 @@
+.stats-container {
+    display: flex;
+    flex-direction: column;
+    gap: 3vh;
+    width: 100%;
+    margin-top: 2vh;
+}
+
+.graphs-pane {
+    display: flex;
+    flex-direction: row;  
+    gap: 1vw;
+    border: solid red 2px;
+}
+
