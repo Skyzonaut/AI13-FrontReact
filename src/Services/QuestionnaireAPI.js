@@ -69,16 +69,59 @@ export const fetchAllParcours = async(questionnaireId) => {
     })
 }
 
+const getScoreParcours = (parcour) => {
+    return parcour.questions.filter(question => question.reponse.vrai === true).length   
+}
 
-export const getUserStats = async(userId) => {
-    const parcours = fetchParcoursId(userId);
-    const questionnaireId = [...new Set(parcours.map(parcour => {
-        return parcour.questionnaireId
-    }))];
-    
-    const questionnaires = questionnaireId.map(questId => {
-        return fetchQuestionnaire(questId);
+const getParcourMaxNote = (parcour) => {
+    return parcour.questions.length;
+}
+
+const getNoteSur20 = (note, maxNote) => {
+    return (note/maxNote)*20
+}
+
+const getMoyenne = (data) => {
+    const maxNote = getParcourMaxNote(data[0])
+    let somme = 0;
+    data.forEach(parcour => {
+        somme += getNoteSur20(getScoreParcours(parcour), maxNote)
     });
+    if(maxNote !== 0) return (somme/maxNote).toFixed(2)
+    else return NaN
+}
+
+const getMin = (data) => {
+    const maxNote = getParcourMaxNote(data[0])
+    return Math.min(...data.map(parcour => getNoteSur20(getScoreParcours(parcour), maxNote)))
+}
+
+const getMax = (data) => {
+    const maxNote = getParcourMaxNote(data[0])
+    return Math.max(...data.map(parcour => getNoteSur20(getScoreParcours(parcour), maxNote)))
+}
+
+
+export const fetchUserStats = async(userId) => {
+    try {
+        const data = await fetchParcoursId(userId);
+        const obj = {
+            moy: getMoyenne(data),
+            min: getMin(data),
+            max: getMax(data),
+        };
+        return obj;
+    } catch (err) {
+        console.error("Erreur lors de la récupération des données:", err);
+        throw err; // Propager l'erreur pour que l'appelant puisse la gérer
+    }
+    // const questionnaireId = [...new Set(parcours.map(parcour => {
+    //     return parcour.questionnaireId
+    // }))];
+    
+    // const questionnaires = questionnaireId.map(questId => {
+    //     return fetchQuestionnaire(questId);
+    // });
     
 
 //TODO : à implémenter ta racez
@@ -97,11 +140,4 @@ export const getUserStats = async(userId) => {
 // }, {});
 
 // console.log(questionnaireMap);
-
-
-
-
-    parcours.forEach(parcour => {
-        
-    });
 }
