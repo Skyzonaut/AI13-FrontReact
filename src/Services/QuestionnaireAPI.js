@@ -1,12 +1,44 @@
+import { apiUrl } from "../Properties";
 
 export const fetchQuestionnaire = async(id) => {
-    return fetch("/questionnaire.json")
+    return fetch(`${apiUrl}/questionnaires/${id}`, {
+            method: 'GET',
+            credentials: 'include', // Important pour envoyer les cookies ou autoriser les identifiants
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then((res) => {
+            if(!res.ok) {
+                const errorMessage = res.text();
+                console.log(errorMessage.then)
+                throw new Error(errorMessage || `HTTP error! status: ${res.status}`);
+            }
+            return res.json();
+        })
+        .then((json) => {
+            return json
+        })
+        .catch((err) => {
+            console.error(err.message);
+            throw new Error(err.message);
+        })
+}
+
+export const fetchReponse = async(id) => {
+    return fetch(`${apiUrl}/reponse/${id}`, {
+            method: 'GET',
+            credentials: 'include', // Important pour envoyer les cookies ou autoriser les identifiants
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
         .then((res) => {
             if(!res.ok) throw new Error()
             return res.json();
         })
         .then((json) => {
-            return json[0]
+            return json
         })
         .catch((err) => {
             console.error(err);
@@ -15,7 +47,13 @@ export const fetchQuestionnaire = async(id) => {
 }
 
 export const fetchAllQuetionnaire = async() => {
-    return fetch("/questionnaire.json")
+    return fetch(`${apiUrl}/questionnaires/`, {
+            method: 'GET',
+            credentials: 'include', // Important pour envoyer les cookies ou autoriser les identifiants
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
         .then((res) => {
             if(!res.ok) throw new Error()
             return res.json();
@@ -26,10 +64,13 @@ export const fetchAllQuetionnaire = async() => {
         })
 }
 
-export const fetchParcoursId = async(userId) => {
+export const fetchParcoursByUserId = async(userId) => {
     return fetch("/parcours.json")
         .then((res) => {
-            if(!res.ok) throw new Error()
+            if(!res.ok) {
+                const errorMessage = res.text();
+                throw new Error(errorMessage || `HTTP error! status: ${res.status}`);
+            }
             return res.json();
         })
         .then((json) => {
@@ -93,51 +134,36 @@ const getMoyenne = (data) => {
 
 const getMin = (data) => {
     const maxNote = getParcourMaxNote(data[0])
-    return Math.min(...data.map(parcour => getNoteSur20(getScoreParcours(parcour), maxNote)))
+    return Math.min(...data.map(parcour => getNoteSur20(getScoreParcours(parcour), maxNote))).toFixed(2)
 }
 
 const getMax = (data) => {
     const maxNote = getParcourMaxNote(data[0])
-    return Math.max(...data.map(parcour => getNoteSur20(getScoreParcours(parcour), maxNote)))
+    return Math.max(...data.map(parcour => getNoteSur20(getScoreParcours(parcour), maxNote))).toFixed(2)
 }
 
+const getDifferentQuestIdFromParcour = (data) => {
+    return data.map(parcour => parcour.questionnaireId).filter((value, index, array) => {
+        return array.indexOf(value) === index;
+    });
+}
 
 export const fetchUserStats = async(userId) => {
     try {
-        const data = await fetchParcoursId(userId);
-        const obj = {
-            moy: getMoyenne(data),
-            min: getMin(data),
-            max: getMax(data),
-        };
+        const data = await fetchParcoursByUserId(userId);
+        let obj = {}
+        for(let questId of getDifferentQuestIdFromParcour(data)){
+            const parcoursForThisQuest = data.filter(parcour => parcour.questionnaireId === questId);
+            obj[questId] = {
+                questionnaireTitle: (await fetchQuestionnaire(questId).catch((err) => {throw err})).titre,
+                moy: getMoyenne(parcoursForThisQuest),
+                min: getMin(parcoursForThisQuest),
+                max: getMax(parcoursForThisQuest),
+            }
+        }
         return obj;
     } catch (err) {
-        console.error("Erreur lors de la récupération des données:", err);
-        throw err; // Propager l'erreur pour que l'appelant puisse la gérer
+        console.error("Erreur lors de la récupération des données:", err.message);
+        throw new Error("Erreur lors de la récupération des données:" + err.message); // Propager l'erreur pour que l'appelant puisse la gérer
     }
-    // const questionnaireId = [...new Set(parcours.map(parcour => {
-    //     return parcour.questionnaireId
-    // }))];
-    
-    // const questionnaires = questionnaireId.map(questId => {
-    //     return fetchQuestionnaire(questId);
-    // });
-    
-
-//TODO : à implémenter ta racez
-// const questionnaireMap = parcours.reduce((acc, parcour) => {
-//     const questionnaireId = parcour.questionnaireId;
-
-//     // Si la clé `questionnaireId` n'existe pas encore dans l'objet accumulé, on l'initialise avec un tableau vide
-//     if (!acc[questionnaireId]) {
-//         acc[questionnaireId] = [];
-//     }
-
-//     // On ajoute le parcours à la liste correspondant au `questionnaireId`
-//     acc[questionnaireId].push(parcour);
-
-//     return acc; // On retourne l'objet accumulateur
-// }, {});
-
-// console.log(questionnaireMap);
 }

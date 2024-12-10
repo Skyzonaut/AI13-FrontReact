@@ -1,10 +1,8 @@
 import "../Assets/Styles/Reponse.scss";
 
 const ParcourReponse = ({reponse, question}) => {
-    console.log(reponse)
-    console.log(question[0])
-    const reponseChoisieId = reponse.id; 
     
+    const reponseChoisieId = reponse.id; 
     
     if (!question) {
         return <div>Loading...</div>;

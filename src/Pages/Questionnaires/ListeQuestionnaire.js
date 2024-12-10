@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { fetchAllQuetionnaire, fetchParcoursId } from "../../Services/QuestionnaireAPI";
+import { fetchAllQuetionnaire, fetchParcoursByUserId } from "../../Services/QuestionnaireAPI";
 import { useState, useEffect } from "react";
 
 const ListeQuestionnaire = () => {
@@ -17,7 +17,7 @@ const ListeQuestionnaire = () => {
       };
 
       const loadParcours = async () => {
-        fetchParcoursId("Ae484AZefaze")
+        fetchParcoursByUserId("Ae484AZefaze")
           .then((data) => {
             setUserParcours(data);
           })
@@ -61,19 +61,19 @@ const ListeQuestionnaire = () => {
           {
             questionnaires.map(questionnaire => {
               const parcoursRealiseDisplay = userParcours
-              .map(obj => obj.questionnaireId)
-              .includes(questionnaire.id) 
-                ? (
-                    <>
-                      Oui <br />
-                      {
-                      userParcours.filter(p => p.questionnaireId === questionnaire.id).length > 1
-                        ? userParcours.filter(p => p.questionnaireId === questionnaire.id).length + " essais réalisés"
-                        : userParcours.filter(p => p.questionnaireId === questionnaire.id).length + " essai réalisé"
-                      }
-                    </>
-                  )
-                : "Non";
+                .map(obj => obj.questionnaireId)
+                .includes(questionnaire.id) 
+                  ? (
+                      <>
+                        Oui <br />
+                        {
+                        userParcours.filter(p => p.questionnaireId === questionnaire.id).length > 1
+                          ? userParcours.filter(p => p.questionnaireId === questionnaire.id).length + " essais réalisés"
+                          : userParcours.filter(p => p.questionnaireId === questionnaire.id).length + " essai réalisé"
+                        }
+                      </>
+                    )
+                  : "Non";
 
               return (
                 <tr key={questionnaire.id} className="align-middle">

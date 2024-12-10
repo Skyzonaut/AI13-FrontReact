@@ -6,15 +6,19 @@ const Account = () => {
 
     const [user, setUser] = useState(null);
     const [modify, setModify] = useState(false);
+    const [hasError, setError] = useState(false);
 
     useEffect(() => {
-        const loadUser = async () => {
-            fetchUser()
-                .then((data) => {
-                    setUser(data);
-                })
+        const loadUser = async (pseudo) => {
+            fetchUser(pseudo)
+            .then((data) => {
+                setUser(data);
+            })
+            .catch((err) => {
+                setError(err);
+            })
         };
-        loadUser();
+        loadUser("pseudo");
     }, [])
 
     const handleInputChange = (e) => {
@@ -25,15 +29,23 @@ const Account = () => {
         }));
     };
 
+    if(hasError) {
+        return(
+            <div>Erreur...</div>
+        )
+    }
+
     if(!user) {
         return(
             <div>Loading...</div>
         )
     }
+    
+    console.log(user)
     return (
         <div className="account-main-tab container">
             <h2 className="display-6">Mon compte</h2>
-            <div class="row">
+            <div className="row">
                 <div className="col-md m-3">
                     <label data-bs-theme="dark">Pseudo</label>
                     <input 
@@ -57,7 +69,7 @@ const Account = () => {
                     />
                 </div>
             </div>
-            <div class="row">
+            <div className="row">
                 <div className="col-md m-3">
                     <label data-bs-theme="dark">Nom de famille</label>
                     <input 

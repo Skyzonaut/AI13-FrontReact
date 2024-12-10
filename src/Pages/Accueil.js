@@ -6,24 +6,34 @@ import { fetchUserStats } from "../Services/QuestionnaireAPI";
 const Accueil = () => {
 
   const [stats, setStats] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const loadStats = async () => {
-      const data = await fetchUserStats("Ae484AZefaze");
-      setStats(data)
+      try {
+        const data = await fetchUserStats("pseudo");
+        setStats(data)
+        setError(null)
+      } catch (error) {
+        setError(error)
+      }
     };
     loadStats();
-    console.log(stats)
   }, [])
 
+  if (error != null) {
+    return <div>Erreur : {error.message}</div>;
+  }
   
   if (!stats) {
     return <div>Loading...</div>;
-}
+  }
+
+  console.log(stats)
 
   return (
     <>
-      <h1 class="display-6">Statistiques</h1>
+      <h1 className="display-6">Statistiques</h1>
       <div className="stats-container">
         <div className="graphs-pane">
           Test 
@@ -31,18 +41,26 @@ const Accueil = () => {
         <div className="liste-questionnaire">
           <table className="table table-striped">
             <thead>
-              <th>Questionnaire</th>
-              <th>Moyenne</th>
-              <th>Minimum</th>
-              <th>Maximum</th>
+              <tr>
+                <th>Titre</th>
+                <th>Moyenne</th>
+                <th>Minimum</th>
+                <th>Maximum</th>
+              </tr>
             </thead>
             <tbody>
-              <tr>
-                <td></td>
-                <td>{stats.moy}</td>
-                <td>{stats.min}</td>
-                <td>{stats.max}</td>
-              </tr>
+              {
+                Object.entries(stats).map(([questId, questionnaire])=> {
+                  return(
+                    <tr>
+                      <td><i>{questionnaire.questionnaireTitle}</i></td>
+                      <td>{questionnaire.moy}</td>
+                      <td>{questionnaire.min}</td>
+                      <td>{questionnaire.max}</td>
+                    </tr>
+                  )
+                })
+              }
             </tbody>
           </table>
         </div>
