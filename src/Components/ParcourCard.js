@@ -5,7 +5,7 @@ const ParcourCard = ({obj, onClick, isSelected}) => {
 
     return (
         <div className={"parcours-item " + (isSelected ? "selected" : "")} onClick={onClick}>
-            <div><h5>{obj.parcourId}</h5></div>
+            <div><h5>{obj.parcoursId}</h5></div>
             <div><b>Début : </b>{obj.dateDebut}</div>
             <div><b>Fin : </b>{obj.dateFin}</div>
         </div>

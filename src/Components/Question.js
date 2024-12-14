@@ -5,11 +5,14 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import { useState, useEffect } from "react";
 import { fetchReponse } from '../Services/QuestionnaireAPI';
 
-function Question({question, done}) {
+function Question({question, done, onChange}) {
     
-
     const [reponses, setReponse] = useState(null);
     
+    const handleInputChange = (event) => {
+        onChange(question.id, parseInt(event.target.value)); 
+    };
+
     useEffect(() => {
         const loadReponse = async (qId) => {
             fetchReponse(qId)
@@ -19,11 +22,10 @@ function Question({question, done}) {
         };
         loadReponse(question.id);
     }, []);
+
     if (!reponses) {
         return <div>Loading...</div>;
     }
-
-    console.log(reponses)
 
     return (
         <div key={question.id} className="question">
@@ -36,7 +38,9 @@ function Question({question, done}) {
                     aria-label="Reponses"
                     name={question.id}
                     className="question-select"
-                    data-bs-theme="dark">
+                    data-bs-theme="dark"
+                    onChange={handleInputChange}>
+                        <option disabled selected value></option>
                 {
                     reponses.map(reponse => {
                         return (<Reponse reponse={reponse} />)

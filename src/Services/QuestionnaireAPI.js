@@ -41,8 +41,8 @@ export const fetchReponse = async(id) => {
             return json
         })
         .catch((err) => {
-            console.error(err);
-            throw err;
+            console.error(err.message);
+            throw new Error(err.message);
         })
 }
 
@@ -65,7 +65,13 @@ export const fetchAllQuetionnaire = async() => {
 }
 
 export const fetchParcoursByUserId = async(userId) => {
-    return fetch("/parcours.json")
+    return fetch(`${apiUrl}/parcours/user/${userId}`, {
+            method: 'GET',
+            credentials: 'include', // Important pour envoyer les cookies ou autoriser les identifiants
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
         .then((res) => {
             if(!res.ok) {
                 const errorMessage = res.text();
@@ -74,8 +80,7 @@ export const fetchParcoursByUserId = async(userId) => {
             return res.json();
         })
         .then((json) => {
-            return json
-                .filter(item => item.userId === userId);
+            return json;
         })
         .catch((err) => {
             console.error(err);
@@ -83,63 +88,110 @@ export const fetchParcoursByUserId = async(userId) => {
         })
 }
 
-export const isParcoursAlreadyDone = async(userId, questionnaireId) => {
-    return fetch("/parcours.json")
+export const fetchReponseParcours = async(parcourId) => {
+    return fetch(`${apiUrl}/parcours/${parcourId}/reponses`, {
+            method: 'GET',
+            credentials: 'include', // Important pour envoyer les cookies ou autoriser les identifiants
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then((res) => {
+            if(!res.ok) {
+                const errorMessage = res.text();
+                throw new Error(errorMessage || `HTTP error! status: ${res.status}`);
+            }
+            return res.json();
+        })
+        .then((json) => {
+            return json;
+        })
+        .catch((err) => {
+            console.error(err);
+            throw err;
+        })
+}
+
+export const fetchReponsesForQuestion = async(questId) => {
+    return fetch(`${apiUrl}/reponse/${questId}`)
     .then((res) => {
-        if(!res.ok) throw new Error()
+        if(!res.ok) {
+            const errorMessage = res.text();
+            throw new Error(errorMessage || `HTTP error! status: ${res.status}`);
+        }
         return res.json();
     })
     .then((json) => {
-        return json
-            .filter(item => item.userId === userId)
-            .some(obj => obj.questionnaireId === parseInt(questionnaireId));
+        return json;
+    })
+    .catch((err) => {
+        console.error(err.message);
+        throw new Error(err.message);
     })
 }
 
 export const fetchAllParcours = async(questionnaireId) => {
-    console.log(questionnaireId)
-    return fetch("/parcours.json")
+    return fetch(`${apiUrl}/parcours/byquestionnaire/${questionnaireId}`)
     .then((res) => {
-        if(!res.ok) throw new Error()
+        if(!res.ok) {
+            const errorMessage = res.text();
+            throw new Error(errorMessage || `HTTP error! status: ${res.status}`);
+        }
         return res.json();
     })
     .then((json) => {
-        console.log(json)
-        return json
-            .filter(item => item.questionnaireId === parseInt(questionnaireId));
+        return json;
+    })
+    .catch((err) => {
+        console.error(err.message);
+        throw new Error(err.message);
     })
 }
 
-const getScoreParcours = (parcour) => {
-    return parcour.questions.filter(question => question.reponse.vrai === true).length   
+export const fetchAllParcoursDisplay = async(questionnaireId, userId) => {
+    return fetch(`${apiUrl}/parcours/display/data/${questionnaireId}/${userId}`)
+    .then((res) => {
+        if(!res.ok) {
+            const errorMessage = res.text();
+            throw new Error(errorMessage || `HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+    })
+    .then((json) => {
+        return json;
+    })
+    .catch((err) => {
+        console.error(err.message);
+        throw new Error(err.message);
+    })
 }
 
-const getParcourMaxNote = (parcour) => {
-    return parcour.questions.length;
+const getParcourMaxNote = (quest) => {
+    return quest.questions.length;
 }
 
 const getNoteSur20 = (note, maxNote) => {
     return (note/maxNote)*20
 }
 
-const getMoyenne = (data) => {
-    const maxNote = getParcourMaxNote(data[0])
+const getMoyenne = (data, quest) => {
+    const maxNote = getParcourMaxNote(quest)
     let somme = 0;
     data.forEach(parcour => {
-        somme += getNoteSur20(getScoreParcours(parcour), maxNote)
+        somme += getNoteSur20(parcour.score, maxNote)
     });
     if(maxNote !== 0) return (somme/maxNote).toFixed(2)
     else return NaN
 }
 
-const getMin = (data) => {
-    const maxNote = getParcourMaxNote(data[0])
-    return Math.min(...data.map(parcour => getNoteSur20(getScoreParcours(parcour), maxNote))).toFixed(2)
+const getMin = (data, quest) => {
+    const maxNote = getParcourMaxNote(quest)
+    return Math.min(...data.map(parcour => getNoteSur20(parcour.score, maxNote))).toFixed(2)
 }
 
-const getMax = (data) => {
-    const maxNote = getParcourMaxNote(data[0])
-    return Math.max(...data.map(parcour => getNoteSur20(getScoreParcours(parcour), maxNote))).toFixed(2)
+const getMax = (data, quest) => {
+    const maxNote = getParcourMaxNote(quest)
+    return Math.max(...data.map(parcour => getNoteSur20(parcour.score, maxNote))).toFixed(2)
 }
 
 const getDifferentQuestIdFromParcour = (data) => {
@@ -148,22 +200,41 @@ const getDifferentQuestIdFromParcour = (data) => {
     });
 }
 
+// export const fetchUserStats = async(userId) => {
+//     try {
+//         const data = await fetchParcoursByUserId(userId);
+//         let obj = {}
+//         for(let questId of getDifferentQuestIdFromParcour(data)){
+//             const questionnaire = await fetchQuestionnaire(questId).catch((err) => {throw err});
+//             const parcoursForThisQuest = data.filter(parcour => parcour.questionnaireId === questId && parcour.dateFin !== null);
+//             obj[questId] = {
+//                 questionnaireTitle: questionnaire.titre,
+//                 moy: getMoyenne(parcoursForThisQuest, questionnaire),
+//                 min: getMin(parcoursForThisQuest, questionnaire),
+//                 max: getMax(parcoursForThisQuest, questionnaire),
+//             }
+//         }
+//         return obj;
+//     } catch (err) {
+//         console.error("Erreur lors de la récupération des données:", err.message);
+//         throw new Error("Erreur lors de la récupération des données:" + err.message); // Propager l'erreur pour que l'appelant puisse la gérer
+//     }
+// }
+
 export const fetchUserStats = async(userId) => {
-    try {
-        const data = await fetchParcoursByUserId(userId);
-        let obj = {}
-        for(let questId of getDifferentQuestIdFromParcour(data)){
-            const parcoursForThisQuest = data.filter(parcour => parcour.questionnaireId === questId);
-            obj[questId] = {
-                questionnaireTitle: (await fetchQuestionnaire(questId).catch((err) => {throw err})).titre,
-                moy: getMoyenne(parcoursForThisQuest),
-                min: getMin(parcoursForThisQuest),
-                max: getMax(parcoursForThisQuest),
-            }
+    return fetch(`${apiUrl}/parcours/stats/${userId}`)
+    .then((res) => {
+        if(!res.ok) {
+            const errorMessage = res.text();
+            throw new Error(errorMessage || `HTTP error! status: ${res.status}`);
         }
-        return obj;
-    } catch (err) {
-        console.error("Erreur lors de la récupération des données:", err.message);
-        throw new Error("Erreur lors de la récupération des données:" + err.message); // Propager l'erreur pour que l'appelant puisse la gérer
-    }
+        return res.json();
+    })
+    .then((json) => {
+        return json;
+    })
+    .catch((err) => {
+        console.error(err.message);
+        throw new Error(err.message);
+    })
 }

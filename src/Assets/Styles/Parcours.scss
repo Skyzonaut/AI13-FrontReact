@@ -42,11 +42,10 @@
     font-size: 1.8vh;
     border-radius: 7px;
     border-bottom: 3px solid $grey;
-    padding: 0.3vh 1vw 0.9vh 1vw;
-
+    vertical-align: middle;
     background: $button-color;
     border-radius: 999px;
-    color: #FFFFFF;
+    // color: #FFFFFF;
     cursor: pointer;
     font-family: Inter,Helvetica,"Apple Color Emoji","Segoe UI Emoji",NotoColorEmoji,"Noto Color Emoji","Segoe UI Symbol","Android Emoji",EmojiSymbols,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans",sans-serif;
     font-size: 16px;
@@ -54,7 +53,6 @@
     line-height: 24px;
     opacity: 1;
     outline: 0 solid transparent;
-    padding: 8px 18px;
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;

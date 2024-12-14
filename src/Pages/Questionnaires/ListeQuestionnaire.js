@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { fetchAllQuetionnaire, fetchParcoursByUserId } from "../../Services/QuestionnaireAPI";
 import { useState, useEffect } from "react";
+import { userId, apiUrl } from "../../Properties";
+
 
 const ListeQuestionnaire = () => {
   const [questionnaires, setQuestionnaires] = useState(null);
@@ -17,7 +19,7 @@ const ListeQuestionnaire = () => {
       };
 
       const loadParcours = async () => {
-        fetchParcoursByUserId("Ae484AZefaze")
+        fetchParcoursByUserId(userId)
           .then((data) => {
             setUserParcours(data);
           })
@@ -32,16 +34,40 @@ const ListeQuestionnaire = () => {
     if(userParcours.map(obj => obj.questionnaireId).includes(id)) {
       navigate(`/parcours/${id}`);
     } else {
-      navigate(`/questionnaire/${id}`);
+
+      if (window.confirm("Êtes-vous sûr de vouloir commencer un nouvel essai ?")) {
+          fetch(`${apiUrl}/parcours/start?userId=${userId}&questionnaireId=${id}`, {
+              method: 'POST',
+              credentials: 'include', // Important pour envoyer les cookies ou autoriser les identifiants
+              headers: {
+                  'Content-Type': 'application/json'
+              }
+          })
+          .then((res) => {
+              if(!res.ok) {
+                  const errorMessage = res.text();
+                  throw new Error(errorMessage || `HTTP error! status: ${res.status}`);
+              }
+              return res.json();
+          })
+          .then((res) => {
+              navigate(`/questionnaire/${id}/${res.parcoursId}`)
+          })
+          .catch((err) => {
+              console.error(err.message);
+              alert("Une erreur est survenue")
+          })
+          
+      }
     }
   };
   
-  if (!questionnaires) {
+  if (!questionnaires || !userParcours) {
       return <div>Loading...</div>;
   }
 
 
-  if(questionnaires.length == 0) {
+  if(questionnaires.length === 0) {
     return <div><i>Aucun questionnaire n'a été trouvé</i></div>
   }
 

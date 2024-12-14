@@ -19,7 +19,7 @@ export default function Index() {
         <Route path="/" element={<Layout titre={"Questionnaires"}/>} >
           <Route index element={<Accueil />} />
           <Route path="questionnaire" element={<ListeQuestionnaire />} />
-          <Route path="questionnaire/:id" element={<Questionnaire />} />
+          <Route path="questionnaire/:id/:parcours" element={<Questionnaire />} />
           <Route path="parcours/:id" element={<ParcoursParQuestionnaire />} />
           <Route path="account/" element={<Account />} />
         </Route>

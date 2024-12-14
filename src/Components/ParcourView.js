@@ -1,23 +1,27 @@
 import ParcourReponse from "./ParcourReponse";
 import Question from "./Question";
 
-const ParcourView = ({ content, questionnaire }) => {
-
-    if (!content) {
+const ParcourView = ({parcour, questionnaire }) => {
+    
+    if (!parcour) {
         return <div><i>Sélectionnez un parcours</i></div>
     }
 
+    if (!questionnaire) {
+        return <div><i>Impossible de trouver le questionnaire associé</i></div>
+    }
+
+
+    console.log(parcour)
+    console.log(questionnaire)
     return (
       <div className="parcours-view">
         {
-            content.questions.map(question => {
-                const questionQuestionnaire = questionnaire.questions
-                    .filter(q => q.id === question.id);
-                    console.log(questionQuestionnaire)
+            questionnaire.questions.map(question => {
                 return (
                     <ParcourReponse 
-                        reponse={question.reponse} 
-                        question={questionQuestionnaire}
+                        reponse={parcour.questions?.filter(q => q.id === question.id)} 
+                        question={question}
                     />
                 )
             })

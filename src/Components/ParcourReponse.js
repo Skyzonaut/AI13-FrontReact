@@ -1,18 +1,32 @@
+import { useState, useEffect } from "react";
 import "../Assets/Styles/Reponse.scss";
+import { fetchReponsesForQuestion } from "../Services/QuestionnaireAPI";
 
 const ParcourReponse = ({reponse, question}) => {
-    
+    const [reponsesPossibles, setReponsesPossibles] = useState(null)
     const reponseChoisieId = reponse.id; 
     
-    if (!question) {
+    
+    useEffect(() => {
+        fetchReponsesForQuestion(question.id)
+            .then((data) => {
+                setReponsesPossibles(data);
+            });
+    }, [])
+
+    if (!question || !reponsesPossibles || !reponse) {
         return <div>Loading...</div>;
+    }
+
+    if(reponse.length === 0) {
+        return <div>Information de la question {question.id} introuvable</div>
     }
 
     return (
         <div className="parcour-reponse">
-            <h4>{question[0].titre}</h4>
+            <h4>{question.titre}</h4>
             {
-                question[0].reponses.map(resp => {
+                reponsesPossibles.map(resp => {
                     return (
                         <div className={"form-check lfp " + (resp.vrai ? "right-answer" : "")}
                             style={{paddingLeft:"2vw"}}>
@@ -20,7 +34,7 @@ const ParcourReponse = ({reponse, question}) => {
                                 className="form-check-input" 
                                 id={resp.id} 
                                 type="radio"
-                                checked={resp.id === reponseChoisieId ? true : false}
+                                checked={resp.id === reponse[0].reponse.id ? true : false}
                                 disabled={true}
                                 style={{opacity: "1"}}
                             />

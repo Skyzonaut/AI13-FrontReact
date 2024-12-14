@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import "../Assets/Styles/Accueil.scss"
 import { useEffect, useState } from "react";
 import { fetchUserStats } from "../Services/QuestionnaireAPI";
+import { userId } from "../Properties";
 
 const Accueil = () => {
 
@@ -11,7 +12,7 @@ const Accueil = () => {
   useEffect(() => {
     const loadStats = async () => {
       try {
-        const data = await fetchUserStats("pseudo");
+        const data = await fetchUserStats(userId);
         setStats(data)
         setError(null)
       } catch (error) {
@@ -29,15 +30,10 @@ const Accueil = () => {
     return <div>Loading...</div>;
   }
 
-  console.log(stats)
-
   return (
     <>
       <h1 className="display-6">Statistiques</h1>
       <div className="stats-container">
-        <div className="graphs-pane">
-          Test 
-        </div>
         <div className="liste-questionnaire">
           <table className="table table-striped">
             <thead>
@@ -53,8 +49,8 @@ const Accueil = () => {
                 Object.entries(stats).map(([questId, questionnaire])=> {
                   return(
                     <tr>
-                      <td><i>{questionnaire.questionnaireTitle}</i></td>
-                      <td>{questionnaire.moy}</td>
+                      <td><i>{questionnaire.questionnaireTitre}</i></td>
+                      <td>{(questionnaire.moy).toFixed(2)}</td>
                       <td>{questionnaire.min}</td>
                       <td>{questionnaire.max}</td>
                     </tr>
