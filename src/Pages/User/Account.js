@@ -18,7 +18,7 @@ const Account = () => {
                 setError(err);
             })
         };
-        loadUser("pseudo");
+        loadUser(JSON.parse(localStorage.getItem("user")).pseudo);
     }, [])
 
     const handleInputChange = (e) => {

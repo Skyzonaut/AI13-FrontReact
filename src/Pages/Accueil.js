@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import "../Assets/Styles/Accueil.scss"
 import { useEffect, useState } from "react";
 import { fetchUserStats } from "../Services/QuestionnaireAPI";
-import { userId } from "../Properties";
 
 const Accueil = () => {
 
@@ -12,7 +11,7 @@ const Accueil = () => {
   useEffect(() => {
     const loadStats = async () => {
       try {
-        const data = await fetchUserStats(userId);
+        const data = await fetchUserStats(localStorage.getItem("userId"));
         setStats(data)
         setError(null)
       } catch (error) {

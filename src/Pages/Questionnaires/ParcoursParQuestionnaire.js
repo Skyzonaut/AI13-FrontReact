@@ -1,10 +1,10 @@
-import { fetchAllParcoursDisplay, fetchQuestionnaire, fetchReponseParcours } from "../../Services/QuestionnaireAPI";
+import { fetchAllParcoursDisplay, fetchQuestionnaire, fetchReponseParcours, startNewQuestionnaire } from "../../Services/QuestionnaireAPI";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom"
 import "../../Assets/Styles/Parcours.scss";
 import ParcourCard from "../../Components/ParcourCard";
 import ParcourView from "../../Components/ParcourView";
-import { apiUrl, userId } from "../../Properties";
+import { apiUrl} from "../../Properties";
 
 const ParcoursParQuestionnaire = () => {
     const { id } = useParams();
@@ -24,26 +24,8 @@ const ParcoursParQuestionnaire = () => {
 
     const startQuestionnaire = () => {
         if (window.confirm("Êtes-vous sûr de vouloir commencer un nouvel essai ?")) {
-            fetch(`${apiUrl}/parcours/start?userId=${userId}&questionnaireId=${questionnaire.id}`, {
-                method: 'POST',
-                credentials: 'include', // Important pour envoyer les cookies ou autoriser les identifiants
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then((res) => {
-                if(!res.ok) {
-                    const errorMessage = res.text();
-                    throw new Error(errorMessage || `HTTP error! status: ${res.status}`);
-                }
-                return res.json();
-            })
-            .then((res) => {
-                navigate(`/questionnaire/${id}/${res.parcoursId}`)
-            })
-            .catch((err) => {
-                console.error(err.message);
-                alert("Une erreur est survenue")
+            startNewQuestionnaire(localStorage.getItem("userId"), questionnaire.id).then((res) => {
+                navigate(`/questionnaire/${questionnaire.id}/${res.parcoursId}`)
             })
             
         }
@@ -52,7 +34,7 @@ const ParcoursParQuestionnaire = () => {
 
     useEffect(() => {
         const loadParcours = async () => {
-            fetchAllParcoursDisplay(id, userId)
+            fetchAllParcoursDisplay(id, localStorage.getItem("userId"))
                 .then((data) => {
                     setParcours(data);
                 })

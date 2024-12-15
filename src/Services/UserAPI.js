@@ -5,6 +5,7 @@ export const fetchUser = async(login) => {
             method: 'GET',
             credentials: 'include', // Important pour envoyer les cookies ou autoriser les identifiants
             headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 'Content-Type': 'application/json'
             }
         })
@@ -20,3 +21,27 @@ export const fetchUser = async(login) => {
             throw err;
         })
 }
+
+export const login = async (username, password) => {
+    return fetch(`${apiUrl}/auth/login`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ "pseudo":username, "password":password }),
+    })
+    .then((res) => {
+        if(!res.ok) {
+            const errorMessage = res.text();
+            throw new Error(errorMessage || `HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+    })
+    .then((data) => {
+        return data;
+    })
+    .catch((err) => {
+        console.error(err.message);
+        throw new Error(err.message)
+    });
+  };

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { fetchAllQuetionnaire, fetchParcoursByUserId } from "../../Services/QuestionnaireAPI";
+import { fetchAllQuetionnaire, fetchParcoursByUserId, startNewQuestionnaire } from "../../Services/QuestionnaireAPI";
 import { useState, useEffect } from "react";
-import { userId, apiUrl } from "../../Properties";
+import { apiUrl } from "../../Properties";
 
 
 const ListeQuestionnaire = () => {
@@ -19,7 +19,7 @@ const ListeQuestionnaire = () => {
       };
 
       const loadParcours = async () => {
-        fetchParcoursByUserId(userId)
+        fetchParcoursByUserId(localStorage.getItem("userId"))
           .then((data) => {
             setUserParcours(data);
           })
@@ -36,28 +36,9 @@ const ListeQuestionnaire = () => {
     } else {
 
       if (window.confirm("Êtes-vous sûr de vouloir commencer un nouvel essai ?")) {
-          fetch(`${apiUrl}/parcours/start?userId=${userId}&questionnaireId=${id}`, {
-              method: 'POST',
-              credentials: 'include', // Important pour envoyer les cookies ou autoriser les identifiants
-              headers: {
-                  'Content-Type': 'application/json'
-              }
+          startNewQuestionnaire(localStorage.getItem("userId"), id).then((res) => {
+            navigate(`/questionnaire/${id}/${res.parcoursId}`)
           })
-          .then((res) => {
-              if(!res.ok) {
-                  const errorMessage = res.text();
-                  throw new Error(errorMessage || `HTTP error! status: ${res.status}`);
-              }
-              return res.json();
-          })
-          .then((res) => {
-              navigate(`/questionnaire/${id}/${res.parcoursId}`)
-          })
-          .catch((err) => {
-              console.error(err.message);
-              alert("Une erreur est survenue")
-          })
-          
       }
     }
   };

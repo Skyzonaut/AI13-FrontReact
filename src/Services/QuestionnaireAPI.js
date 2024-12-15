@@ -5,6 +5,7 @@ export const fetchQuestionnaire = async(id) => {
             method: 'GET',
             credentials: 'include', // Important pour envoyer les cookies ou autoriser les identifiants
             headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 'Content-Type': 'application/json'
             }
         })
@@ -28,8 +29,9 @@ export const fetchQuestionnaire = async(id) => {
 export const fetchReponse = async(id) => {
     return fetch(`${apiUrl}/reponse/${id}`, {
             method: 'GET',
-            credentials: 'include', // Important pour envoyer les cookies ou autoriser les identifiants
+            credentials: 'include',
             headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 'Content-Type': 'application/json'
             }
         })
@@ -49,8 +51,9 @@ export const fetchReponse = async(id) => {
 export const fetchAllQuetionnaire = async() => {
     return fetch(`${apiUrl}/questionnaires/`, {
             method: 'GET',
-            credentials: 'include', // Important pour envoyer les cookies ou autoriser les identifiants
+            credentials: 'include',
             headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 'Content-Type': 'application/json'
             }
         })
@@ -67,8 +70,9 @@ export const fetchAllQuetionnaire = async() => {
 export const fetchParcoursByUserId = async(userId) => {
     return fetch(`${apiUrl}/parcours/user/${userId}`, {
             method: 'GET',
-            credentials: 'include', // Important pour envoyer les cookies ou autoriser les identifiants
+            credentials: 'include',
             headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 'Content-Type': 'application/json'
             }
         })
@@ -90,12 +94,13 @@ export const fetchParcoursByUserId = async(userId) => {
 
 export const fetchReponseParcours = async(parcourId) => {
     return fetch(`${apiUrl}/parcours/${parcourId}/reponses`, {
-            method: 'GET',
-            credentials: 'include', // Important pour envoyer les cookies ou autoriser les identifiants
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
+        method: "GET",
+        credentials: 'include',
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'application/json'
+        }
+    })
         .then((res) => {
             if(!res.ok) {
                 const errorMessage = res.text();
@@ -113,7 +118,14 @@ export const fetchReponseParcours = async(parcourId) => {
 }
 
 export const fetchReponsesForQuestion = async(questId) => {
-    return fetch(`${apiUrl}/reponse/${questId}`)
+    return fetch(`${apiUrl}/reponse/${questId}`, {
+        method: "GET",
+        credentials: 'include',
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'application/json'
+        }
+    })
     .then((res) => {
         if(!res.ok) {
             const errorMessage = res.text();
@@ -131,7 +143,14 @@ export const fetchReponsesForQuestion = async(questId) => {
 }
 
 export const fetchAllParcours = async(questionnaireId) => {
-    return fetch(`${apiUrl}/parcours/byquestionnaire/${questionnaireId}`)
+    return fetch(`${apiUrl}/parcours/byquestionnaire/${questionnaireId}`, {
+        method: "GET",
+        credentials: 'include',
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'application/json'
+        }
+    })
     .then((res) => {
         if(!res.ok) {
             const errorMessage = res.text();
@@ -149,7 +168,14 @@ export const fetchAllParcours = async(questionnaireId) => {
 }
 
 export const fetchAllParcoursDisplay = async(questionnaireId, userId) => {
-    return fetch(`${apiUrl}/parcours/display/data/${questionnaireId}/${userId}`)
+    return fetch(`${apiUrl}/parcours/display/data/${questionnaireId}/${userId}`, {
+        method: "GET",
+        credentials: 'include',
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'application/json'
+        }
+    })
     .then((res) => {
         if(!res.ok) {
             const errorMessage = res.text();
@@ -164,40 +190,6 @@ export const fetchAllParcoursDisplay = async(questionnaireId, userId) => {
         console.error(err.message);
         throw new Error(err.message);
     })
-}
-
-const getParcourMaxNote = (quest) => {
-    return quest.questions.length;
-}
-
-const getNoteSur20 = (note, maxNote) => {
-    return (note/maxNote)*20
-}
-
-const getMoyenne = (data, quest) => {
-    const maxNote = getParcourMaxNote(quest)
-    let somme = 0;
-    data.forEach(parcour => {
-        somme += getNoteSur20(parcour.score, maxNote)
-    });
-    if(maxNote !== 0) return (somme/maxNote).toFixed(2)
-    else return NaN
-}
-
-const getMin = (data, quest) => {
-    const maxNote = getParcourMaxNote(quest)
-    return Math.min(...data.map(parcour => getNoteSur20(parcour.score, maxNote))).toFixed(2)
-}
-
-const getMax = (data, quest) => {
-    const maxNote = getParcourMaxNote(quest)
-    return Math.max(...data.map(parcour => getNoteSur20(parcour.score, maxNote))).toFixed(2)
-}
-
-const getDifferentQuestIdFromParcour = (data) => {
-    return data.map(parcour => parcour.questionnaireId).filter((value, index, array) => {
-        return array.indexOf(value) === index;
-    });
 }
 
 // export const fetchUserStats = async(userId) => {
@@ -222,7 +214,14 @@ const getDifferentQuestIdFromParcour = (data) => {
 // }
 
 export const fetchUserStats = async(userId) => {
-    return fetch(`${apiUrl}/parcours/stats/${userId}`)
+    return fetch(`${apiUrl}/parcours/stats/${userId}`, {
+        method: "GET",
+        credentials: 'include',
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'application/json'
+        }
+    })
     .then((res) => {
         if(!res.ok) {
             const errorMessage = res.text();
@@ -236,5 +235,30 @@ export const fetchUserStats = async(userId) => {
     .catch((err) => {
         console.error(err.message);
         throw new Error(err.message);
+    })
+}
+
+export const startNewQuestionnaire = (userId, questionnaireId) => {
+    return fetch(`${apiUrl}/parcours/start?userId=${userId}&questionnaireId=${questionnaireId}`, {
+        method: 'POST',
+        credentials: 'include', 
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then((res) => {
+        if(!res.ok) {
+            const errorMessage = res.text();
+            throw new Error(errorMessage || `HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+    })
+    .then((res) => {
+        return res;
+    })
+    .catch((err) => {
+        console.error(err.message);
+        alert("Une erreur est survenue")
     })
 }
