@@ -95,6 +95,7 @@ const ListeQuestionnaire = () => {
                       className="btn btn-link"  // Classe Bootstrap pour un bouton stylisé
                       style={{textDecoration: 'none',}}
                       onClick={() => handleNavigation(questionnaire.id)}
+                      data-bs-theme="dark"
                     >
                       {
                         userParcours.map(obj => obj.questionnaireId).includes(questionnaire.id)

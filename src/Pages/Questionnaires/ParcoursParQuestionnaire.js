@@ -82,7 +82,7 @@ const ParcoursParQuestionnaire = () => {
                                     obj={parcour}   
                                     key={parcour.parcourId}
                                     onClick={() => changeContent(parcour)}
-                                    isSelected={parcour.parcourId === selectedParcourId}
+                                    isSelected={parcour.parcoursId === selectedParcourId}
                                 />
                             )
                         })
@@ -92,6 +92,7 @@ const ParcoursParQuestionnaire = () => {
                     className="add-parcours" 
                     type="button"
                     onClick={startQuestionnaire}
+                    data-bs-theme="dark"
                 >
                     Nouvel essai
                 </button>

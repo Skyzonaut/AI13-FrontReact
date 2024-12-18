@@ -1,13 +1,16 @@
+// AuthContext.jsx
 import React, { createContext, useState, useEffect } from 'react';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);  
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     setIsAuthenticated(!!token);
+    setIsLoading(false); 
   }, []);
 
   const setLoginConf = (token, user) => {
@@ -23,6 +26,10 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('user');
     setIsAuthenticated(false);
   };
+
+  if (isLoading) {
+    return null; 
+  }
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, setLoginConf, logoutConf }}>

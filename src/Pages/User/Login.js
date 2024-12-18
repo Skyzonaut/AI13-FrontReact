@@ -100,7 +100,7 @@ const Login = () => {
                     </div>
                 </div>
                 <div className="row m-3">
-                    <div className="col-md m-3">
+                    <div className="col-md m-3" data-bs-theme="dark">
                         <Link to="/forgot">
                             J'ai oublié mon mot de passe
                         </Link>

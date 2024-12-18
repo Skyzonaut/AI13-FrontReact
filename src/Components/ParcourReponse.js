@@ -4,8 +4,6 @@ import { fetchReponsesForQuestion } from "../Services/QuestionnaireAPI";
 
 const ParcourReponse = ({reponse, question}) => {
     const [reponsesPossibles, setReponsesPossibles] = useState(null)
-    const reponseChoisieId = reponse.id; 
-    
     
     useEffect(() => {
         fetchReponsesForQuestion(question.id)

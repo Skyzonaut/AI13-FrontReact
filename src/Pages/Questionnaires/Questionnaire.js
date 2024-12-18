@@ -88,7 +88,7 @@ const Questionnaire = () => {
     
     return (
         <div className="questionnaire">
-            <h1 className="display-6" style={{textAlign: 'center'}}>{questionnaire.titre}</h1>
+            <h1 className="display-6" style={{textAlign: 'center', marginBottom:"3vh"}}>{questionnaire.titre}</h1>
             <form onSubmit={(e) => e.preventDefault()}>
                 { 
                     questionnaire?.questions?.map(question => {
@@ -97,7 +97,7 @@ const Questionnaire = () => {
                             onChange={handleResponseChange}/>)
                     })
                 }
-                <button type="button" onClick={finishParcours}>
+                <button type="button" className="btn btn-outline-secondary" onClick={finishParcours} style={{color:"lightgrey",marginTop:"1vh"}}>
                     Valider et envoyer
                 </button>
             </form>

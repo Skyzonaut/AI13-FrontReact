@@ -10,10 +10,7 @@ const ParcourView = ({parcour, questionnaire }) => {
     if (!questionnaire) {
         return <div><i>Impossible de trouver le questionnaire associé</i></div>
     }
-
-
-    console.log(parcour)
-    console.log(questionnaire)
+    
     return (
       <div className="parcours-view">
         {

@@ -34,7 +34,7 @@ const Accueil = () => {
       <h1 className="display-6">Statistiques</h1>
       <div className="stats-container">
         <div className="liste-questionnaire">
-          <table className="table table-striped">
+          <table className="table table-striped table-dark">
             <thead>
               <tr>
                 <th>Titre</th>

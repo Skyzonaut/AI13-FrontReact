@@ -1,6 +1,5 @@
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import "../../Assets/Styles/Layout.scss";
-import { ReactComponent as Logo} from "../../Assets/Images/account.svg";
 const Layout = ({titre}) => {
 
   const navigate = useNavigate();
@@ -11,6 +10,11 @@ const Layout = ({titre}) => {
         <NavLink 
           to="/" 
           className="header-logo-container"
+          
+          style={
+            ({ isActive }) => ({
+            color: isActive ? 'grey' : '', 
+          })}
         >
           <img 
             className="App-logo"
