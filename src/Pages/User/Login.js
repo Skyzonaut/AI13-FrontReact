@@ -64,7 +64,6 @@ const Login = () => {
                                 className="form-control" 
                                 type="text" 
                                 id="pseudo" 
-                                style={{height: '4vh'}}
                                 name="pseudo" 
                                 placeholder="Votre pseudo"
                                 value={username}
@@ -79,7 +78,6 @@ const Login = () => {
                             <input 
                                 data-bs-theme="dark" 
                                 className="form-control"
-                                style={{height: '4vh'}}
                                 type="password" 
                                 name="password" 
                                 placeholder="Enter your password" 
@@ -96,7 +94,7 @@ const Login = () => {
                         <inputButton 
                             data-bs-theme="dark" 
                             className="form-control"
-                            style={{width: '4vw', textAlign:"center"}}
+                            style={{width: '6vw', textAlign:"center"}}
                             onClick={handleLogin}>Login
                         </inputButton>
                     </div>

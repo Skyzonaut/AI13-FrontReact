@@ -22,6 +22,49 @@ export const fetchUser = async(login) => {
         })
 }
 
+export const modifyUser = async(user) => {
+    return fetch(`${apiUrl}/users/${user.id}`, {
+            method: 'PUT',
+            credentials: 'include', // Important pour envoyer les cookies ou autoriser les identifiants
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+        .then((res) => {
+            if(!res.ok) throw new Error()
+            return res.json();
+        })
+        .then((json) => {
+            return json
+        })
+        .catch((err) => {
+            console.error(err);
+            throw err;
+        })
+}
+
+
+export const updatePassword = async(userId, password) => {
+    return fetch(`${apiUrl}/users/${userId}/password`, {
+            method: 'PATCH',
+            credentials: 'include', // Important pour envoyer les cookies ou autoriser les identifiants
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'Content-Type': 'application/json'
+            },
+            body: password
+        })
+        .then((res) => {
+            if(!res.ok) throw new Error()
+        })
+        .catch((err) => {
+            console.error(err);
+            throw err;
+        })
+}
+
 export const login = async (username, password) => {
     return fetch(`${apiUrl}/auth/login`, {
         method: 'POST',
