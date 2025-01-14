@@ -192,27 +192,6 @@ export const fetchAllParcoursDisplay = async(questionnaireId, userId) => {
     })
 }
 
-// export const fetchUserStats = async(userId) => {
-//     try {
-//         const data = await fetchParcoursByUserId(userId);
-//         let obj = {}
-//         for(let questId of getDifferentQuestIdFromParcour(data)){
-//             const questionnaire = await fetchQuestionnaire(questId).catch((err) => {throw err});
-//             const parcoursForThisQuest = data.filter(parcour => parcour.questionnaireId === questId && parcour.dateFin !== null);
-//             obj[questId] = {
-//                 questionnaireTitle: questionnaire.titre,
-//                 moy: getMoyenne(parcoursForThisQuest, questionnaire),
-//                 min: getMin(parcoursForThisQuest, questionnaire),
-//                 max: getMax(parcoursForThisQuest, questionnaire),
-//             }
-//         }
-//         return obj;
-//     } catch (err) {
-//         console.error("Erreur lors de la récupération des données:", err.message);
-//         throw new Error("Erreur lors de la récupération des données:" + err.message); // Propager l'erreur pour que l'appelant puisse la gérer
-//     }
-// }
-
 export const fetchUserStats = async(userId) => {
     return fetch(`${apiUrl}/parcours/stats/${userId}`, {
         method: "GET",

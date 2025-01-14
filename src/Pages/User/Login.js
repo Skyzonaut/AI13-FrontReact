@@ -80,7 +80,7 @@ const Login = () => {
                                 className="form-control"
                                 type="password" 
                                 name="password" 
-                                placeholder="Enter your password" 
+                                placeholder="Entrez votre mot de passe" 
                                 id="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}

@@ -88,14 +88,25 @@ const ParcoursParQuestionnaire = () => {
                         })
                     }
                 </div>
-                <button 
-                    className="add-parcours" 
-                    type="button"
-                    onClick={startQuestionnaire}
-                    data-bs-theme="dark"
-                >
-                    Nouvel essai
-                </button>
+                {questionnaire.enabled === true ? (
+                    <button 
+                        className="add-parcours" 
+                        type="button"
+                        onClick={startQuestionnaire}
+                        data-bs-theme="dark"
+                    >
+                        Nouvel essai
+                    </button>
+                    ) : (
+                    <button 
+                        className="add-parcours" 
+                        type="button"
+                        disabled
+                        data-bs-theme="dark"
+                    >
+                        Désactivé
+                    </button>
+                    )}
             </div>
             <div className="parcours-view-pane">
                 <ParcourView parcour={parcourContent} questionnaire={questionnaire} />

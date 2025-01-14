@@ -91,18 +91,29 @@ const ListeQuestionnaire = () => {
                   <td><i>{parcoursRealiseDisplay}</i>
                   </td>
                   <td className="text-end">
-                    <button
-                      className="btn btn-link"  // Classe Bootstrap pour un bouton stylisé
-                      style={{textDecoration: 'none',}}
-                      onClick={() => handleNavigation(questionnaire.id)}
-                      data-bs-theme="dark"
-                    >
-                      {
-                        userParcours.map(obj => obj.questionnaireId).includes(questionnaire.id)
-                        ? "Visualiser"
-                        : "Commencer"
-                      }
-                    </button>
+                    {!questionnaire.enabled && !userParcours.map(obj => obj.questionnaireId).includes(questionnaire.id) ? (
+                      <button 
+                        className="btn btn-link" 
+                        style={{textDecoration: 'none'}} 
+                        disabled 
+                        data-bs-theme="dark"
+                      >
+                        Désactivé
+                      </button>
+                    ) : (
+                      <button
+                        className="btn btn-link"
+                        style={{textDecoration: 'none',}}
+                        onClick={() => handleNavigation(questionnaire.id)}
+                        data-bs-theme="dark"
+                      >
+                        {
+                          userParcours.map(obj => obj.questionnaireId).includes(questionnaire.id)
+                          ? "Visualiser"
+                          : "Commencer"
+                        }
+                      </button>
+                    )}
                   </td>
                 </tr>
               )
